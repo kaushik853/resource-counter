@@ -21,12 +21,12 @@ resource_totals = {}
 def controller(access, secret, profile, region,show_regions, savejson):
     global session
     global args
-    view_region = region
+    cregion = region
     args = {'region':None}
 
     # lets addup a region flag
-    if view_region:
-        args['region']=view_region
+    if cregion:
+        args['region']=cregion
     if access:
         click.echo('Access Key specified')
         if not secret:
@@ -72,13 +72,13 @@ def controller(access, secret, profile, region,show_regions, savejson):
         sys.exit(0)
 
     if args['region'] != None:
-        if view_region.find(',') != -1:
-            res = view_region.split(',')
+        if cregion.find(',') != -1:
+            res = cregion.split(',')
             region_list = res
         else:
-            region_list = [view_region]
-            resource_counts[view_region] = {}
-        print('Region: {0}'.format(args['region']))
+            region_list = [cregion]
+            resource_counts[cregion] = {}
+      #  print('Region: {0}'.format(args['region']))
 
     else:
         region_list = session.get_available_regions('ec2')
@@ -90,7 +90,7 @@ def controller(access, secret, profile, region,show_regions, savejson):
     # iterate through the various services to build the counts
     click.echo('Counting resources across regions. This will take a few minutes...')
     click.echo(' ')
-    ec2_counter(account_id,view_region)
+    ec2_counter(account_id,cregion)
     try:
         autoscaling_counter()
     except botocore.exceptions.ClientError as e:
@@ -229,17 +229,17 @@ def controller(access, secret, profile, region,show_regions, savejson):
 # ec2 = session.client('ec2', region_name='us-west-2')
 
 
-def ec2_counter(account_id, view_region):
+def ec2_counter(account_id, cregion):
     # get list of regions supported by EC2 endpoint
-    if view_region != None:
-        if view_region.find(',') != -1:
-            res = view_region.split(',')
+    if cregion != None:
+        if cregion.find(',') != -1:
+            res = cregion.split(',')
             region_list = res
-            for nview_region in region_list:
-                resource_counts[nview_region] = {}
+            for ncregion in region_list:
+                resource_counts[ncregion] = {}
         else:
-            region_list = [view_region]
-            resource_counts[view_region] = {}
+            region_list = [cregion]
+            resource_counts[cregion] = {}
 
 #        print('Choosen Region: {0}'.format(args['region']))
     else:
