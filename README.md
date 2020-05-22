@@ -15,6 +15,7 @@ The current list incluides:
 * Config Rules
 * Dynamo Tables
 * Elastic IP Addresses
+* EKS
 * Glacier Vaults
 * IAM Groups
 * Images
@@ -34,6 +35,7 @@ The current list incluides:
 * Snapshots 
 * Subnets
 * IAM Users
+* Workspace
 * VPC Endpoints
 * VPC Peering Connection
 * VPCs
