@@ -11,6 +11,8 @@ mperm = {}
 resource_counts = {}
 resource_totals = {}
 
+
+
 @click.command()
 @click.option('--access', help='AWS Access Key. Otherwise will use the standard credentials path for the AWS CLI.')
 @click.option('--secret', help='AWS Secret Key')
@@ -91,135 +93,38 @@ def controller(access, secret, profile, region,show_regions, savejson):
     click.echo('Counting resources across regions. This will take a few minutes...')
     click.echo(' ')
     ec2_counter(account_id,cregion)
-    try:
-        autoscaling_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        balancer_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        s3_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        iam_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        lambda_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
+    
+    autoscaling_counter()
 
-    try:
-        glacier_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        cloudwatch_rules_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        config_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        cloudtrail_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        sns_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        kms_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        dynamo_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        rds_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-        workspace_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-     eks_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
-    try:
-     sagemaker_counter()
-    except botocore.exceptions.ClientError as e:
-        op = e.__dict__['operation_name']
-        code = e.__dict__['response']['Error']['Code']
-        msg = e.__dict__['response']['Error']['Message']
-        print('{0} {1} Operation: {2}'.format(code,msg,op))
-        mperm[op] = {'Code':code,'Message':msg}
+    balancer_counter()
+
+    s3_counter()
+
+    iam_counter()
+
+    lambda_counter()
+
+    glacier_counter()
+
+    cloudwatch_rules_counter()
+
+    config_counter()
+
+    cloudtrail_counter()
+
+    sns_counter()
+
+    kms_counter()
+
+    dynamo_counter()
+
+    rds_counter()
+
+    workspace_counter()
+
+    eks_counter()
+
+    sagemaker_counter()
 
     # show results
     #click.echo('Resources by region')
@@ -251,6 +156,19 @@ def controller(access, secret, profile, region,show_regions, savejson):
 # ec2 = boto3.client('ec2', region_name='us-west-2')
 
 # ec2 = session.client('ec2', region_name='us-west-2')
+
+def except_decor(func):
+    def _except_decor(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except botocore.exceptions.ClientError as e:
+            op = e.__dict__['operation_name']
+            code = e.__dict__['response']['Error']['Code']
+            msg = e.__dict__['response']['Error']['Message']
+            print('{0} {1} Operation: {2}'.format(code,msg,op))
+            mperm[op] = {'Code':code,'Message':msg}
+            return mperm[op]
+    return _except_decor
 
 
 def ec2_counter(account_id, cregion):
@@ -494,6 +412,7 @@ def ec2_counter(account_id, cregion):
     resource_totals['NAT Gateways'] = total_NAT
     resource_totals['VPC Endpoints'] = total_endpoints
 
+@except_decor
 def iam_counter():
     iam = session.resource('iam', region_name='us-west-2')
 
@@ -515,6 +434,7 @@ def iam_counter():
     resource_totals['Policies'] = total_policies
     resource_totals['SAML Providers'] = total_saml
 
+@except_decor
 def autoscaling_counter():
     # get list of supported regions
     region_list = session.get_available_regions('autoscaling')
@@ -553,6 +473,7 @@ def autoscaling_counter():
     resource_totals['Autoscale Groups'] = total_autoscaling_groups
     resource_totals['Launch Configurations'] = total_launch_configurations
 
+@except_decor
 def balancer_counter():
     # get list of supported regions
     elb_region_list = session.get_available_regions('elb')
@@ -598,6 +519,7 @@ def balancer_counter():
     resource_totals['Classic Load Balancers'] = elb_total
     resource_totals['Application and Network Load Balancers'] = elbv2_total
 
+@except_decor
 def s3_counter():
     total_buckets = 0
     # S3 gives you a full count no matter what the region setting
@@ -608,6 +530,7 @@ def s3_counter():
     # resource_counts[region]['s3 buckets'] = bucket_counter
     resource_totals['S3 Buckets'] = total_buckets
 
+@except_decor
 def lambda_counter():
     region_list = session.get_available_regions('lambda')
 
@@ -624,6 +547,7 @@ def lambda_counter():
         resource_counts[region]['lambdas'] = function_counter
     resource_totals['Lambda Functions'] = total_functions
 
+@except_decor
 def glacier_counter():
     region_list = session.get_available_regions('glacier')
 
@@ -637,6 +561,7 @@ def glacier_counter():
         resource_counts[region]['glacier vaults'] = vault_counter
     resource_totals['Glacier Vaults'] = total_vaults
 
+@except_decor
 def cloudwatch_rules_counter():
     region_list = session.get_available_regions('events')
 
@@ -650,6 +575,7 @@ def cloudwatch_rules_counter():
         resource_counts[region]['cloudwatch rules'] = events_counter
     resource_totals['Cloudwatch Rules'] = total_events
 
+@except_decor
 def config_counter():
     region_list = session.get_available_regions('config')
 
@@ -666,6 +592,7 @@ def config_counter():
         resource_counts[region]['config rules'] = config_rules_counter
     resource_totals['Config Rules'] = total_config_rules
 
+@except_decor
 def cloudtrail_counter():
     region_list = session.get_available_regions('cloudtrail')
 
@@ -679,6 +606,7 @@ def cloudtrail_counter():
         resource_counts[region]['cloudtrail trails'] = trails_counter
     resource_totals['CloudTrail Trails'] = total_trails
 
+@except_decor
 def sns_counter():
     region_list = session.get_available_regions('sns')
 
@@ -692,6 +620,7 @@ def sns_counter():
         resource_counts[region]['sns topics'] = topic_counter
     resource_totals['SNS Topics'] = total_topics
 
+@except_decor
 def kms_counter():
     region_list = session.get_available_regions('kms')
 
@@ -708,6 +637,7 @@ def kms_counter():
         resource_counts[region]['kms keys'] = keys_counter
     resource_totals['KMS Keys'] = total_keys
 
+@except_decor
 def dynamo_counter():
     region_list = session.get_available_regions('dynamodb')
 
@@ -721,6 +651,7 @@ def dynamo_counter():
         resource_counts[region]['dynamo tables'] = table_counter
     resource_totals['Dynamo Tables'] = total_tables
 
+@except_decor
 def rds_counter():
     region_list = session.get_available_regions('rds')
     #print(region_list)
@@ -739,6 +670,7 @@ def rds_counter():
         resource_counts[region]['rds instances'] = dbinstances_counter
     resource_totals['RDS Instances'] = total_dbinstances
 
+@except_decor
 def workspace_counter():
     region_list = session.get_available_regions(service_name='workspaces')
 
@@ -755,6 +687,7 @@ def workspace_counter():
         resource_counts[region]['workspace'] = workspace_counter
     resource_totals['Workspaces'] = total_workspaces
 
+@except_decor
 def eks_counter():
     region_list = session.get_available_regions(service_name='s3')
     region_list.remove('us-west-1')
@@ -774,6 +707,7 @@ def eks_counter():
         resource_counts[region]['EKS'] = eks_cluster_counter
     resource_totals['EKS'] = total_eks_clusters
 
+@except_decor
 def sagemaker_counter():
     region_list = session.get_available_regions(service_name='sagemaker')
 
